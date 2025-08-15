@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>صفحه من</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --space-bg: #050414;
+      --star-rgb: 255,255,255;
+    }
+    *{box-sizing:border-box}
+    html, body { height: 100%; margin: 0; }
+    body {
+      font-family: 'Montserrat', sans-serif;
+      color: #fff;
+      background:
+        radial-gradient(1200px 800px at 15% 25%, rgba(46,26,71,0.35), transparent 60%),
+        radial-gradient(900px 700px at 85% 70%, rgba(11,42,79,0.35), transparent 60%),
+        radial-gradient(700px 600px at 60% 20%, rgba(22,34,59,0.25), transparent 70%),
+        radial-gradient(1000px 1000px at 50% 50%, rgba(255,255,255,0.05), transparent 70%),
+        var(--space-bg);
+      min-height: 100svh;
+    }
+
+    #bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+    #stars { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+    .milkyway {
+      position: absolute;
+      inset: -30vh -30vw;
+      transform: rotate(-35deg);
+      filter: blur(28px) saturate(130%);
+      opacity: 0.9;
+      mix-blend-mode: screen;
+      background:
+        linear-gradient(to right,
+          rgba(255,255,255,0),
+          rgba(255,255,255,0.10) 30%,
+          rgba(255,255,255,0.20) 50%,
+          rgba(255,255,255,0.10) 70%,
+          rgba(255,255,255,0)
+        ),
+        radial-gradient(200px 120px at 40% 48%, rgba(255,255,255,0.18), rgba(255,255,255,0) 70%),
+        radial-gradient(260px 160px at 55% 52%, rgba(255,238,200,0.22), rgba(255,255,255,0) 70%),
+        radial-gradient(180px 110px at 48% 44%, rgba(190,210,255,0.16), rgba(255,255,255,0) 70%),
+        radial-gradient(360px 220px at 60% 56%, rgba(200,225,255,0.12), rgba(255,255,255,0) 70%);
+    }
+    .vignette {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(1200px 800px at 50% 50%, rgba(0,0,0,0), rgba(0,0,0,0.45) 70%);
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px 56px;
+      text-align: center;
+      gap: 8px;
+    }
+    h1 { margin: 0 0 8px; font-size: 22px; text-shadow: 0 2px 8px rgba(0,0,0,0.6); }
+    p.lead { margin: 0 0 16px; opacity: .95; text-shadow: 0 1px 6px rgba(0,0,0,0.5); }
+
+    .buttons{
+      display:flex; flex-wrap:wrap; justify-content:center; gap:10px;
+      margin-bottom: 8px;
+    }
+
+    /* دکمه خفن با گرادیانت متحرک */
+    button {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 12px;
+      color: white;
+      background: linear-gradient(90deg, #ff3366, #ff9933);
+      background-size: 200% 100%;
+      cursor: pointer;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.35);
+      backdrop-filter: blur(6px);
+      transition: background-position 0.4s, transform 0.2s, box-shadow 0.2s;
+    }
+    button:hover {
+      background-position: 100% 0;
+      transform: scale(1.05);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.45);
+    }
+
+    .panel {
+      margin-top: 10px;
+      background: rgba(0,0,0,0.45);
+      border: 1px solid rgba(255,255,255,0.15);
+      padding: 16px 18px;
+      border-radius: 14px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+      backdrop-filter: blur(8px);
+      width: min(720px, 92vw);
+      text-align: start;
+      line-height: 1.7;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    .panel:not(.hidden) {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .panel h2{margin:0 0 10px; font-size:18px}
+    .hidden { display:none; }
+    a { color:#cfd8ff; text-decoration:none }
+    a:hover { text-decoration:underline }
+  </style>
+</head>
+<body>
+  <div id="bg" aria-hidden="true">
+    <canvas id="stars"></canvas>
+    <div class="milkyway"></div>
+    <div class="vignette"></div>
+  </div>
+
+  <main class="content">
+    <h1>من پارسا هستم و این هم سایت منه</h1>
+    <p class="lead">برای دیدن مشخصاتم روی دکمه‌های زیر کلیک کن</p>
+
+    <div class="buttons">
+      <button onclick="window.open('https://rubika.ir/joing/IGDCAIBD0VDPXPYMBAHAASWVNISAXESK','_blank')">رفتن به گپ روبیکا</button>
+      <button onclick="showSection('info')">مشخصات من</button>
+      <button onclick="showSection('rubika')">روبیکام</button>
+      <button onclick="showSection('channel')">چنل روبیکام</button>
+    </div>
+
+    <section id="info" class="panel hidden" aria-live="polite">
+      <h2>مشخصات من</h2>
+      <p>اسم: پارسا</p>
+      <p>سن: 14</p>
+      <p>زبان‌های یادگرفته‌شده: HTML، Python</p>
+      <button onclick="hideAll()">بستن</button>
+    </section>
+
+    <section id="rubika" class="panel hidden" aria-live="polite">
+      <h2>روبیکام</h2>
+      <p>آیدی روبیکام: <b>@kawasakl_ninja</b></p>
+      <button onclick="hideAll()">بستن</button>
+    </section>
+
+    <section id="channel" class="panel hidden" aria-live="polite">
+      <h2>چنل روبیکام</h2>
+      <p>آیدی چنل: <b>@python_sors</b></p>
+      <button onclick="hideAll()">بستن</button>
+    </section>
+  </main>
+
+  <script>
+    function hideAll() {
+      document.querySelectorAll('.panel').forEach(p => p.classList.add('hidden'));
+    }
+    function showSection(id) {
+      hideAll();
+      document.getElementById(id)?.classList.remove('hidden');
+    }
+
+    // ستاره‌ها و انیمیشن همان کد اصلی شما
+    const canvas = document.getElementById('stars');
+    const ctx = canvas.getContext('2d');
+
+    const CONFIG = {directionDeg:45, baseSpeed:0.35, jitter:0.7, density:0.00055, maxSize:2.2, twinkle:true, depthRange:[0.4,1.0]};
+    let stars=[], width=0, height=0, dpr=Math.max(1, window.devicePixelRatio || 1), dir={x:0, y:0};
+    function setDirection(deg){ const rad = deg*Math.PI/180; dir.x=Math.cos(rad); dir.y=Math.sin(rad); }
+    setDirection(CONFIG.directionDeg);
+    function rand(a,b){return Math.random()*(b-a)+a;}
+    function addStars(n){ for(let i=0;i<n;i++){ const depth=rand(CONFIG.depthRange[0],CONFIG.depthRange[1]); const size=rand(0.6, CONFIG.maxSize)*depth; const speed=(CONFIG.baseSpeed*(1+rand(-CONFIG.jitter, CONFIG.jitter)))*(0.6+depth); const phase=Math.random()*Math.PI*2; const twAmp=rand(0.2,0.9); stars.push({x:Math.random()*width,y:Math.random()*height,size,speed,depth,phase,twAmp});} }
+    function resize(){ width=window.innerWidth; height=window.innerHeight; canvas.width=Math.floor(width*dpr); canvas.height=Math.floor(height*dpr); canvas.style.width=width+'px'; canvas.style.height=height+'px'; ctx.setTransform(dpr,0,0,dpr,0,0); const target=Math.floor(width*height*CONFIG.density); const diff=target-stars.length; if(diff>0)addStars(diff); else if(diff<0)stars.length=target; }
+    function step(){ ctx.clearRect(0,0,width,height); for(let s of stars){ s.x+=s.speed*dir.x; s.y+=s.speed*dir.y; const pad=8; if(s.x>width+pad)s.x=-pad; if(s.y>height+pad)s.y=-pad; let alpha=0.85*s.depth; if(CONFIG.twinkle){ s.phase+=0.02+s.speed*0.005; alpha*=0.7+0.3*(0.5+0.5*Math.sin(s.phase))*s.twAmp; } ctx.globalAlpha=Math.max(0,Math.min(1,alpha)); ctx.beginPath(); ctx.arc(s.x,s.y,s.size,0,Math.PI*2); ctx.fillStyle=`rgba(${getComputedStyle(document.documentElement).getPropertyValue('--star-rgb')},1)`; ctx.fill(); } ctx.globalAlpha=1; requestAnimationFrame(step); }
+    resize(); requestAnimationFrame(step); addEventListener('resize', resize);
+    document.addEventListener('visibilitychange',()=>{if(!document.hidden)resize();});
+    addEventListener('keydown',(e)=>{if(e.key==='ArrowLeft'||e.key==='ArrowRight'){CONFIG.directionDeg+=(e.key==='ArrowLeft'?-5:5);setDirection(CONFIG.directionDeg);}});
+  </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>صفحه من</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --space-bg: #050414;
+      --star-rgb: 255,255,255;
+    }
+    *{box-sizing:border-box}
+    html, body { height: 100%; margin: 0; }
+    body {
+      font-family: 'Montserrat', sans-serif;
+      color: #fff;
+      background:
+        radial-gradient(1200px 800px at 15% 25%, rgba(46,26,71,0.35), transparent 60%),
+        radial-gradient(900px 700px at 85% 70%, rgba(11,42,79,0.35), transparent 60%),
+        radial-gradient(700px 600px at 60% 20%, rgba(22,34,59,0.25), transparent 70%),
+        radial-gradient(1000px 1000px at 50% 50%, rgba(255,255,255,0.05), transparent 70%),
+        var(--space-bg);
+      min-height: 100svh;
+    }
+
+    #bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+    #stars { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+    .milkyway {
+      position: absolute;
+      inset: -30vh -30vw;
+      transform: rotate(-35deg);
+      filter: blur(28px) saturate(130%);
+      opacity: 0.9;
+      mix-blend-mode: screen;
+      background:
+        linear-gradient(to right,
+          rgba(255,255,255,0),
+          rgba(255,255,255,0.10) 30%,
+          rgba(255,255,255,0.20) 50%,
+          rgba(255,255,255,0.10) 70%,
+          rgba(255,255,255,0)
+        ),
+        radial-gradient(200px 120px at 40% 48%, rgba(255,255,255,0.18), rgba(255,255,255,0) 70%),
+        radial-gradient(260px 160px at 55% 52%, rgba(255,238,200,0.22), rgba(255,255,255,0) 70%),
+        radial-gradient(180px 110px at 48% 44%, rgba(190,210,255,0.16), rgba(255,255,255,0) 70%),
+        radial-gradient(360px 220px at 60% 56%, rgba(200,225,255,0.12), rgba(255,255,255,0) 70%);
+    }
+    .vignette {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(1200px 800px at 50% 50%, rgba(0,0,0,0), rgba(0,0,0,0.45) 70%);
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px 56px;
+      text-align: center;
+      gap: 8px;
+    }
+    h1 { margin: 0 0 8px; font-size: 22px; text-shadow: 0 2px 8px rgba(0,0,0,0.6); }
+    p.lead { margin: 0 0 16px; opacity: .95; text-shadow: 0 1px 6px rgba(0,0,0,0.5); }
+
+    .buttons{
+      display:flex; flex-wrap:wrap; justify-content:center; gap:10px;
+      margin-bottom: 8px;
+    }
+
+    /* دکمه خفن با گرادیانت متحرک */
+    button {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 12px;
+      color: white;
+      background: linear-gradient(90deg, #ff3366, #ff9933);
+      background-size: 200% 100%;
+      cursor: pointer;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.35);
+      backdrop-filter: blur(6px);
+      transition: background-position 0.4s, transform 0.2s, box-shadow 0.2s;
+    }
+    button:hover {
+      background-position: 100% 0;
+      transform: scale(1.05);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.45);
+    }
+
+    .panel {
+      margin-top: 10px;
+      background: rgba(0,0,0,0.45);
+      border: 1px solid rgba(255,255,255,0.15);
+      padding: 16px 18px;
+      border-radius: 14px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+      backdrop-filter: blur(8px);
+      width: min(720px, 92vw);
+      text-align: start;
+      line-height: 1.7;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    .panel:not(.hidden) {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .panel h2{margin:0 0 10px; font-size:18px}
+    .hidden { display:none; }
+    a { color:#cfd8ff; text-decoration:none }
+    a:hover { text-decoration:underline }
+  </style>
+</head>
+<body>
+  <div id="bg" aria-hidden="true">
+    <canvas id="stars"></canvas>
+    <div class="milkyway"></div>
+    <div class="vignette"></div>
+  </div>
+
+  <main class="content">
+    <h1>من پارسا هستم و این هم سایت منه</h1>
+    <p class="lead">برای دیدن مشخصاتم روی دکمه‌های زیر کلیک کن</p>
+
+    <div class="buttons">
+      <button onclick="window.open('https://rubika.ir/joing/IGDCAIBD0VDPXPYMBAHAASWVNISAXESK','_blank')">رفتن به گپ روبیکا</button>
+      <button onclick="showSection('info')">مشخصات من</button>
+      <button onclick="showSection('rubika')">روبیکام</button>
+      <button onclick="showSection('channel')">چنل روبیکام</button>
+    </div>
+
+    <section id="info" class="panel hidden" aria-live="polite">
+      <h2>مشخصات من</h2>
+      <p>اسم: پارسا</p>
+      <p>سن: 14</p>
+      <p>زبان‌های یادگرفته‌شده: HTML، Python</p>
+      <button onclick="hideAll()">بستن</button>
+    </section>
+
+    <section id="rubika" class="panel hidden" aria-live="polite">
+      <h2>روبیکام</h2>
+      <p>آیدی روبیکام: <b>@kawasakl_ninja</b></p>
+      <button onclick="hideAll()">بستن</button>
+    </section>
+
+    <section id="channel" class="panel hidden" aria-live="polite">
+      <h2>چنل روبیکام</h2>
+      <p>آیدی چنل: <b>@python_sors</b></p>
+      <button onclick="hideAll()">بستن</button>
+    </section>
+  </main>
+
+  <script>
+    function hideAll() {
+      document.querySelectorAll('.panel').forEach(p => p.classList.add('hidden'));
+    }
+    function showSection(id) {
+      hideAll();
+      document.getElementById(id)?.classList.remove('hidden');
+    }
+
+    // ستاره‌ها و انیمیشن همان کد اصلی شما
+    const canvas = document.getElementById('stars');
+    const ctx = canvas.getContext('2d');
+
+    const CONFIG = {directionDeg:45, baseSpeed:0.35, jitter:0.7, density:0.00055, maxSize:2.2, twinkle:true, depthRange:[0.4,1.0]};
+    let stars=[], width=0, height=0, dpr=Math.max(1, window.devicePixelRatio || 1), dir={x:0, y:0};
+    function setDirection(deg){ const rad = deg*Math.PI/180; dir.x=Math.cos(rad); dir.y=Math.sin(rad); }
+    setDirection(CONFIG.directionDeg);
+    function rand(a,b){return Math.random()*(b-a)+a;}
+    function addStars(n){ for(let i=0;i<n;i++){ const depth=rand(CONFIG.depthRange[0],CONFIG.depthRange[1]); const size=rand(0.6, CONFIG.maxSize)*depth; const speed=(CONFIG.baseSpeed*(1+rand(-CONFIG.jitter, CONFIG.jitter)))*(0.6+depth); const phase=Math.random()*Math.PI*2; const twAmp=rand(0.2,0.9); stars.push({x:Math.random()*width,y:Math.random()*height,size,speed,depth,phase,twAmp});} }
+    function resize(){ width=window.innerWidth; height=window.innerHeight; canvas.width=Math.floor(width*dpr); canvas.height=Math.floor(height*dpr); canvas.style.width=width+'px'; canvas.style.height=height+'px'; ctx.setTransform(dpr,0,0,dpr,0,0); const target=Math.floor(width*height*CONFIG.density); const diff=target-stars.length; if(diff>0)addStars(diff); else if(diff<0)stars.length=target; }
+    function step(){ ctx.clearRect(0,0,width,height); for(let s of stars){ s.x+=s.speed*dir.x; s.y+=s.speed*dir.y; const pad=8; if(s.x>width+pad)s.x=-pad; if(s.y>height+pad)s.y=-pad; let alpha=0.85*s.depth; if(CONFIG.twinkle){ s.phase+=0.02+s.speed*0.005; alpha*=0.7+0.3*(0.5+0.5*Math.sin(s.phase))*s.twAmp; } ctx.globalAlpha=Math.max(0,Math.min(1,alpha)); ctx.beginPath(); ctx.arc(s.x,s.y,s.size,0,Math.PI*2); ctx.fillStyle=`rgba(${getComputedStyle(document.documentElement).getPropertyValue('--star-rgb')},1)`; ctx.fill(); } ctx.globalAlpha=1; requestAnimationFrame(step); }
+    resize(); requestAnimationFrame(step); addEventListener('resize', resize);
+    document.addEventListener('visibilitychange',()=>{if(!document.hidden)resize();});
+    addEventListener('keydown',(e)=>{if(e.key==='ArrowLeft'||e.key==='ArrowRight'){CONFIG.directionDeg+=(e.key==='ArrowLeft'?-5:5);setDirection(CONFIG.directionDeg);}});
+  </script>
+</body>
+</html>
